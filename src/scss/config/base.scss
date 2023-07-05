@@ -15,8 +15,10 @@ html, body {
 
 .quiz {
     font-family: 'Roboto', sans-serif;
+    width: 100%;
     &__slide-container {
         max-width: 1440px;
+        width: 100%;
         margin: 0 auto;
         padding: 70px 15px;
 
@@ -26,11 +28,31 @@ html, body {
     }
     &__slide-left {
         flex: 0 0 400px;
+        position: relative;
     }
     &__left-dynamic-content {
         display: flex;
         flex-direction: column;
         gap: 70px;
+
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        transform: translatey(-50%);
+        opacity: 0;
+        visibility: hidden;
+        transition: .3s;
+        &_prev {
+            transform: translatey(-100%);
+        }
+        &_next {
+            transform: translatey(0);
+        }
+        &_active {
+            opacity: 1;
+            visibility: visible;
+        }
     }
     &__slide-title {
         font-size: 35px;
@@ -44,48 +66,148 @@ html, body {
     }
     &__answer {
         display: flex;
+        align-items: center;
         gap: 15px;
+
+        cursor: pointer;
+    }
+    &__radio {
+        width: 35px;
+        height: 35px;
+        border: 1px solid #092D72;
+        border-radius: 50%;
+        position: relative;
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            transition: .3s;
+
+            width: 19px;
+            height: 19px;
+
+            background-color: #092D72;
+            border-radius: 50%;
+        }
     }
     &__radio-hidden {
         position: absolute;
-        left: 9999px;
+        z-index: -1;
         opacity: 0;
         pointer-events: none;
+        &:checked{
+            & + .quiz{
+                &__radio {
+                    &::before {
+                        transform: translate(-50%, -50%) scale(1);
+                        opacity: 1;
+                    }
+                }
+            }
+        } 
     }
     &__radio-text {
         font-size: 20px;
         font-weight: 400;
     }
     &__navigation {
-        margin-top: 75px;
+        margin-top: 550px;
+
+        display: flex;
+        gap: 20px;
     }
-    &__button {}
+    &__button {
+        border: 1px solid #092D72;
+        border-radius: 100px;
+        padding: 15px 65px;
+        background-color: white;
+
+        width: max-content;
+
+        font-weight: 600;
+        font-size: 18px;
+        color: #092D72;
+
+        transition: .3s;
+        cursor: pointer;
+        &:hover {
+            background-color: #092D72;
+            opacity: 0.9;
+            color: white;
+        }
+        &_accent {
+            background-color: #092D72;
+            color: white;
+            &:hover {
+                opacity: 0.9;
+            }
+        }
+        &_disabled {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+    }
     &__slide-right {
         display: flex;
         justify-content: center;
 
         flex: 0 0 480px;
+        position: relative;
+
+        min-width: 500px;
+        min-height: 600px;
     }
-    &__slide-card {}
+    &__slide-card {
+        box-shadow: 0 0 5px#6F6F6F77;
+        border-radius: 40px;
+        border: 1px solid #D2D2D2;
+
+        padding: 30px;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        opacity: 0;
+        visibility: hidden;
+
+        transition: .3s;
+
+        &_prev {
+            transform: translateX(-80%) rotate(-15deg);
+        }
+        &_next {
+            transform: translateX(-20%) rotate(15deg);
+        }
+        &_active {
+            opacity: 1;
+            visibility: visible;
+        }
+    }
     &__img {}
-    &__list {}
-    &__list-elem {}
-    &__list-elem-img {}
-    &__list-elem-text {}
-}
+    &__list {
+        list-style: none;
+        padding: 0;
+        margin-top: 30px;
 
-#left2 {
-    display: none;
-}
+        display: flex;
+        flex-direction: column;
 
-#left3 {
-    display: none;
-}
-
-#right2 {
-    display: none;
-}
-
-#right3 {
-    display: none;
+        gap: 20px;
+    }
+    &__list-elem {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    &__list-elem-img {
+        width: 60px;
+        height: 60px;
+    }
+    &__list-elem-text {
+        font-size: 16px;
+        font-weight: 300;
+    }
 }
